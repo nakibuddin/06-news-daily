@@ -25,48 +25,52 @@ const loadCategoryData = data =>{
     }            
 };
 
+
 const fetchNews = (categoryId,categoryName) =>{            
     const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;
     fetch(url)
     .then(res => res.json())
-    .then(data => showNews(data, categoryName, url));
+    .then(data => setNewsUI(data, categoryName, url));
 };
 
-const showNews = (data, categoryName, url) =>{    
+
+// const showNews = (data, categoryName, url) =>{    
+//     document.getElementById('news-container').innerText = ``;    
+//     // const newsTitle = data.data[0] ? data.data[0].title : 'No data found';
+//     if(data.data.length != 0){ 
+//         setNewsUI(data, categoryName, url);
+//     }
+//     else{
+//         document.getElementById('news-container').innerHTML = `<br><br><br><br><br><br>
+//          <h3 class="text-center"> No Data Available </h3> `;        
+//     }                        
+// }; 
+
+
+const setNewsUI = (data, categoryName, url) =>{  
     document.getElementById('news-container').innerText = ``;    
-    // const newsTitle = data.data[0] ? data.data[0].title : 'No data found';
-    if(data.data.length != 0){ 
-        setNewsUI(data, categoryName, url);
-    }
-    else{
-        document.getElementById('news-container').innerHTML = `<br><br><br><br><br><br>
-         <h3 class="text-center"> Data Not Found</h3> `;
-    }                        
-}; 
-    
-const setNewsUI = (data, categoryName, url) =>{    
     const items = data.data;
-    const itemNumber = items.length;
-    const itemNumberDiv = document.createElement('div');                                
-    itemNumberDiv.innerHTML = `
-        <h6 class="bg-light mb-4 py-3 ps-4 rounded"> ${itemNumber} items found for category ${categoryName} </h6>
+
+    items.sort((a, b) => {
+        return b.total_view - a.total_view;
+    });
+
+    const itemCount = items.length;
+    const itemCountDiv = document.createElement('div');                                
+    itemCountDiv.innerHTML = `
+        <h6 class="bg-light mb-4 py-3 ps-4 rounded"> ${itemCount} items found for category ${categoryName} </h6>
     `;
-
-    document.getElementById('news-container').appendChild(itemNumberDiv);
-
-
-    let item;
-    let i=-1;    
-    for(item of items) {        
-        i++;
+    document.getElementById('news-container').appendChild(itemCountDiv);
+        
+    for(const item of items) {                
+        const  itemId = item._id;                
         const thumbnailImageUrl = item.image_url;
         const newsTitle = item.title;
         const newsDetails = newsTrim(item.details);
         const authorImageUrl = item.author.img;                
-        const authorName = item.author.name ? item.author.name: 'Not Available';
-        
+        const authorName = item.author.name ? item.author.name: 'No Data Available';                
         const publishDate = item.author.published_date;
-        const views = item.total_view;
+        const views = item.total_view ? item.total_view: 'No Data Available';        
                         
 
         const newsDiv = document.createElement('div');                                
@@ -91,7 +95,7 @@ const setNewsUI = (data, categoryName, url) =>{
                             <p>${views}</p>                                            
                         </div>
                         
-                        <p id="btn-view-details" onclick="openModal('${url}', ${i})" class="arrow-color my-cursor me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <p id="btn-view-details" onclick="openModal('${url}', '${itemId}')" class="arrow-color my-cursor me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i class="fa-solid fa-arrow-right"></i> </p>
                     </div>
                 </div>
@@ -101,6 +105,7 @@ const setNewsUI = (data, categoryName, url) =>{
         document.getElementById('news-container').appendChild(newsDiv);
     }                
 };
+
 
 const newsTrim = str =>{            
     array1 = str.split("");
@@ -118,43 +123,46 @@ const newsTrim = str =>{
 };
 
 
-const openModal = (url,i) =>{    
+const openModal = (url,itemId) =>{    
     fetch(url)
     .then(res => res.json())
-    .then(data => {                
+    .then(data => { 
+        const items = data.data;               
 
-        const thumbnailImageUrl = data.data[i].image_url;
-        const newsTitle = data.data[i].title;
-        const newsDetails = data.data[i].details;                
-        const authorImageUrl = data.data[i].author.img;                                
-        const authorName = data.data[i].author.name ? data.data[i].author.name: 'Not Available';
-        const publishDate = data.data[i].author.published_date;
-        const views = data.data[i].total_view;
+        for(const  item of items) {        
+            if(item._id === itemId){
+                const thumbnailImageUrl = item.image_url;
+                const newsTitle = item.title;
+                const newsDetails = item.details;                
+                const authorImageUrl = item.author.img;                                
+                const authorName = item.author.name ? item.author.name: 'No Data Available';
+                const publishDate = item.author.published_date;        
+                const views = item.total_view ? item.total_view: 'No Data Available';        
+                
+                document.querySelector('.modal-body').innerHTML = `
+                    <h5>${newsTitle}:<br><br></h5> 
+                    <img class="img-fluid rounded" src="${thumbnailImageUrl}">
+                    <p class="text-muted"> <br>${newsDetails}</p>
+
+                    <h5 class="text-center">  Author  </h5>
+                    <img class="d-block w-25 rounded m-auto" src="${authorImageUrl}">
+
+                    <div class="text-center">
+                        <h6 class="d-inline-block"> <br> Author Name:  </h6>
+                        <p class="d-inline-block mb-5"> ${authorName} </p>
+                    <div>
+
+                    <div class="text-start">
+                        <h6 class="d-inline-block"> Published Date:  </h6>
+                        <p class="d-inline-block mb-0"> ${publishDate} </p>
+                    <div>                        
+                                        
+                    <h6 class="d-inline-block"> Total Views:  </h6>
+                    <p class="d-inline-block"> ${views} </p>                    
+                `;
+            }
+        }
 
         
-        document.querySelector('.modal-body').innerHTML = `
-            <h5>${newsTitle}:</h5> 
-            <img class="img-fluid rounded" src="${thumbnailImageUrl}">
-            <p class="text-muted"> <br>${newsDetails}</p>
-
-            <h5 class="text-center">  Author  </h5>
-            <img class="d-block w-25 rounded m-auto" src="${authorImageUrl}">
-
-            <div class="text-center">
-                <h6 class="d-inline-block"> <br> Author Name:  </h6>
-                <p class="d-inline-block"> ${authorName} </p>
-            <div>
-
-            <div class="text-start">
-                <h6 class="d-inline-block"> Published Date:  </h6>
-                <p class="d-inline-block mb-0"> ${publishDate} </p>
-            <div>                        
-            
-            
-            <h6 class="d-inline-block"> Total View:  </h6>
-            <p class="d-inline-block"> ${views} </p>
-            
-
-        `;
     });      
 };
