@@ -14,3 +14,15 @@ body{
     font-weight: bold;
     text-decoration: underline;
 }
+
+
+.arrow-color{
+    color: #5D5FEF;    
+}
+
+.single-news-block{
+    background-color: white;    
+    height: 315px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
