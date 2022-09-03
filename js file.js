@@ -75,7 +75,7 @@ const setNewsUI = (data, categoryName, url) =>{
 
         const newsDiv = document.createElement('div');                                
         newsDiv.innerHTML = `
-            <div class="d-flex single-news-block">
+            <div class="d-flex flex-column flex-md-row single-news-block">
                 <img class="thumbnail_img rounded" src="${thumbnailImageUrl}">
 
                 <div class="m-4 d-flex flex-column justify-content-between">

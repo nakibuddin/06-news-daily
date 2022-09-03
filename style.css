@@ -30,7 +30,21 @@ body{
 }
 .single-news-block{
     background-color: white;    
-    height: 315px;
+    height: 315px;    
     border-radius: 15px;
     margin-bottom: 30px;
+}
+
+
+@media only screen and (max-width: 768px){
+    .thumbnail_img{
+        width: 96%;
+        margin: 2%;
+    }    
+}
+
+@media only screen and (max-width: 1200px){ 
+    .single-news-block{        
+        height: auto;        
+    }
 }
