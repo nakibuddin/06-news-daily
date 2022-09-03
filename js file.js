@@ -26,5 +26,5 @@ const fetchNews = categoryId =>{
     const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;            
     fetch(url)
     .then(res => res.json())
-    // .then(data => showNews(data));
+    .then(data => showNews(data));
 };
