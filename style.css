@@ -1,0 +1,16 @@
+body{
+    /* background-color: #F6F6F7; */
+    background-color: #eeeeee;    
+}
+.my-cursor{
+    cursor: pointer;
+}
+.navbar-brand-color{
+    color: #5D5FEF;
+    font-weight: bold;
+}
+#btn-news:hover, #btn-blog:hover{            
+    color: #5D5FEF;
+    font-weight: bold;
+    text-decoration: underline;
+}
