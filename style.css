@@ -16,10 +16,18 @@ body{
 }
 
 
+.thumbnail_img{
+    width: 22%;
+    margin: 2%;
+}
+.author-img{
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
 .arrow-color{
     color: #5D5FEF;    
 }
-
 .single-news-block{
     background-color: white;    
     height: 315px;
