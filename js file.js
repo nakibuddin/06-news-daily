@@ -66,7 +66,8 @@ const setNewsUI = (data,url) =>{
         const newsTitle = item.title;
         const newsDetails = newsTrim(item.details);
         const authorImageUrl = item.author.img;                
-        const authorName = item.author.name;
+        const authorName = item.author.name ? item.author.name: 'Not Available';
+        
         const publishDate = item.author.published_date;
         const views = item.total_view;
                         
@@ -120,4 +121,43 @@ const newsTrim = str =>{
 };
 
 
- 
+const openModal = (url,i) =>{    
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {                
+
+        const thumbnailImageUrl = data.data[i].image_url;
+        const newsTitle = data.data[i].title;
+        const newsDetails = data.data[i].details;                
+        const authorImageUrl = data.data[i].author.img;                                
+        const authorName = data.data[i].author.name ? data.data[i].author.name: 'Not Available';
+        const publishDate = data.data[i].author.published_date;
+        const views = data.data[i].total_view;
+
+        
+        document.querySelector('.modal-body').innerHTML = `
+            <h5>${newsTitle}:</h5> 
+            <img class="img-fluid rounded" src="${thumbnailImageUrl}">
+            <p class="text-muted"> <br>${newsDetails}</p>
+
+            <h5 class="text-center">  Author  </h5>
+            <img class="d-block w-25 rounded m-auto" src="${authorImageUrl}">
+
+            <div class="text-center">
+                <h6 class="d-inline-block"> <br> Author Name:  </h6>
+                <p class="d-inline-block"> ${authorName} </p>
+            <div>
+
+            <div class="text-start">
+                <h6 class="d-inline-block"> Published Date:  </h6>
+                <p class="d-inline-block mb-0"> ${publishDate} </p>
+            <div>                        
+            
+            
+            <h6 class="d-inline-block"> Total View:  </h6>
+            <p class="d-inline-block"> ${views} </p>
+            
+
+        `;
+    });      
+};
