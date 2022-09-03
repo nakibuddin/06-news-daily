@@ -15,9 +15,16 @@ const loadCategoryData = data =>{
         // console.log(category.category_name);
         const categoryDiv = document.createElement('div');                                
         categoryDiv.innerHTML = `
-            <p class="my-cursor"> ${category.category_name} </p>                    
+            <p onclick="fetchNews('${category.category_id}')" class="my-cursor"> ${category.category_name} </p>                    
         `;
         document.getElementById('category-container').appendChild(categoryDiv);
 
     }            
+};
+
+const fetchNews = categoryId =>{            
+    const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;            
+    fetch(url)
+    .then(res => res.json())
+    // .then(data => showNews(data));
 };
