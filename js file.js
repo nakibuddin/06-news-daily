@@ -9,18 +9,15 @@ fetch('https://openapi.programming-hero.com/api/news/categories')
 .then(res => res.json())
 .then(data => loadCategoryData(data));
 
-const loadCategoryData = data =>{    
-    // console.log(data);
-    // const myData = `${data}`    
-    // console.log(myData);
-    // console.log(typeof myData);
-    // document.getElementById('category-container').appendChild(categoryDiv);
+const loadCategoryData = data =>{            
     const categories = data.data.news_category;
     for(const category of categories){
-        // console.log(category.category_name);
+        const categoryId = category.category_id;
+        const categoryName = category.category_name;        
+
         const categoryDiv = document.createElement('div');      
         categoryDiv.innerHTML = `
-            <p onclick="fetchNews('${category.category_id}')" class="my-cursor">
+            <p onclick="fetchNews('${categoryId}', '${categoryName}')" class="my-cursor">
              ${category.category_name} </p>                    
         `;
         document.getElementById('category-container').appendChild(categoryDiv);
@@ -28,18 +25,18 @@ const loadCategoryData = data =>{
     }            
 };
 
-const fetchNews = categoryId =>{            
+const fetchNews = (categoryId,categoryName) =>{            
     const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;
     fetch(url)
     .then(res => res.json())
-    .then(data => showNews(data, url));
+    .then(data => showNews(data, categoryName, url));
 };
 
-const showNews = (data,url) =>{    
+const showNews = (data, categoryName, url) =>{    
     document.getElementById('news-container').innerText = ``;    
     // const newsTitle = data.data[0] ? data.data[0].title : 'No data found';
     if(data.data.length != 0){ 
-        setNewsUI(data,url);
+        setNewsUI(data, categoryName, url);
     }
     else{
         document.getElementById('news-container').innerHTML = `<br><br><br><br><br><br>
@@ -47,21 +44,21 @@ const showNews = (data,url) =>{
     }                        
 }; 
     
-const setNewsUI = (data,url) =>{    
+const setNewsUI = (data, categoryName, url) =>{    
     const items = data.data;
+    const itemNumber = items.length;
+    const itemNumberDiv = document.createElement('div');                                
+    itemNumberDiv.innerHTML = `
+        <h6 class="bg-light mb-4 py-3 ps-4 rounded"> ${itemNumber} items found for category ${categoryName} </h6>
+    `;
+
+    document.getElementById('news-container').appendChild(itemNumberDiv);
+
+
     let item;
     let i=-1;    
-    for(item of items) {
-        // const thumbnailImageUrl = data.data[0].image_url;
-        // const newsTitle = data.data[0].title;
-        // const newsDetails = newsTrim(data.data[0].details);                
-        // const authorImageUrl = data.data[0].author.img;                
-        // const authorName = data.data[0].author.name;
-        // const publishDate = data.data[0].author.published_date;
-        // const views = data.data[0].total_view;
-        const myData = 123;
+    for(item of items) {        
         i++;
-
         const thumbnailImageUrl = item.image_url;
         const newsTitle = item.title;
         const newsDetails = newsTrim(item.details);
