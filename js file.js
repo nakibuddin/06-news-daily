@@ -28,3 +28,18 @@ const fetchNews = categoryId =>{
     .then(res => res.json())
     .then(data => showNews(data));
 };
+
+const newsTrim = str =>{            
+    array1 = str.split("");
+    if(array1.length > 550){
+        array2 = array1.slice(0,550);
+        array2.push('.');
+        array2.push('.');
+        array2.push('.');
+        newString = array2.join("");            
+        return newString;                
+    }
+    else{
+        return str;
+    }
+};

@@ -80,7 +80,7 @@
             // for(const item of items) {
                 const thumbnailImageUrl = data.data[0].image_url;
                 const newsTitle = data.data[0].title;
-                const newsDetails = data.data[0].details;                
+                const newsDetails = newsTrim(data.data[0].details);                
                 const authorImageUrl = data.data[0].author.img;                
                 const authorName = data.data[0].author.name;
                 const publishDate = data.data[0].author.published_date;
