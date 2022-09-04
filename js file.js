@@ -1,8 +1,21 @@
+
+document.getElementById('btn-news').classList.add('btn-color');
+
 document.getElementById('btn-news').addEventListener('click', function(){
-    // console.log('Nakib');
+    document.getElementById('blog-container').classList.add('d-none');
+    document.getElementById('category-container').classList.remove('d-none');
+    document.getElementById('news-container').classList.remove('d-none');
+
+    document.getElementById('btn-news').classList.add('btn-color');
+    document.getElementById('btn-blog').classList.remove('btn-color');
 })
 document.getElementById('btn-blog').addEventListener('click', function(){
-    // console.log('Sakib');
+    document.getElementById('blog-container').classList.remove('d-none');
+    document.getElementById('category-container').classList.add('d-none');
+    document.getElementById('news-container').classList.add('d-none');
+
+    document.getElementById('btn-blog').classList.add('btn-color');
+    document.getElementById('btn-news').classList.remove('btn-color');
 })
 
 fetch('https://openapi.programming-hero.com/api/news/categories')
@@ -31,8 +44,11 @@ const fetchNews = (categoryId,categoryName) =>{
     const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;
     fetch(url)
     .then(res => res.json())
-    .then(data => setNewsUI(data, categoryName, url));
+    // .then(data => setNewsUI(data, categoryName, url));
+    .then(data => setTimeout(setNewsUI, 300, data, categoryName, url) );    // function call with delay    
 };
+    
+    setTimeout(() => {  console.log("World!"); }, 5000);  // console.log with delay
 
 
 // const showNews = (data, categoryName, url) =>{    
