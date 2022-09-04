@@ -18,7 +18,8 @@ document.getElementById('btn-blog').addEventListener('click', function(){
     document.getElementById('btn-news').classList.remove('btn-color');
 })
 
-fetch('https://openapi.programming-hero.com/api/news/categories')
+const categoryUrl = 'https://openapi.programming-hero.com/api/news/categories';
+fetch(categoryUrl)
 .then(res => res.json())
 .then(data => loadCategoryData(data));
 
@@ -30,7 +31,7 @@ const loadCategoryData = data =>{
 
         const categoryDiv = document.createElement('div');      
         categoryDiv.innerHTML = `
-            <p onclick="fetchNews('${categoryId}', '${categoryName}')" class="my-cursor">
+            <p onclick="fetchNews('${categoryId}', '${categoryName}')" id="category${categoryId}" class="my-cursor">
              ${category.category_name} </p>                    
         `;
         document.getElementById('category-container').appendChild(categoryDiv);
@@ -38,17 +39,33 @@ const loadCategoryData = data =>{
     }            
 };
 
+const toggleCategoryColor = (selectedCategoryId) => {
+    fetch(categoryUrl)
+    .then(res => res.json())
+    .then(data => {
+        const categories = data.data.news_category;
+        for(const category of categories){
+            const categoryId = category.category_id;
+            if(categoryId != selectedCategoryId ){
+                document.getElementById(`category${categoryId}`).classList.remove('category-color');
+            }
+        }
+    });        
+    document.getElementById(`category${selectedCategoryId}`).classList.add('category-color');
+}
 
-const fetchNews = (categoryId,categoryName) =>{   
+const fetchNews = (categoryId,categoryName) =>{            
+
+    toggleCategoryColor(categoryId);    
     toggleSpinner(true);
+
     const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;
     fetch(url)
     .then(res => res.json())
     // .then(data => setNewsUI(data, categoryName, url));
     .then(data => setTimeout(setNewsUI, 300, data, categoryName, url) );    // function call with delay    
-};
-    
-    setTimeout(() => {  console.log("World!"); }, 5000);  // console.log with delay
+};    
+// setTimeout(() => {  console.log("World!"); }, 5000);  // console.log with delay
 
 
 // const showNews = (data, categoryName, url) =>{    
@@ -80,11 +97,11 @@ const setNewsUI = (data, categoryName, url) =>{
     document.getElementById('news-container').appendChild(itemCountDiv);
         
     for(const item of items) {                
-        const  itemId = item._id;                
+        const  itemId = item._id;               
         const thumbnailImageUrl = item.image_url;
         const newsTitle = item.title;
         const newsDetails = newsTrim(item.details);
-        const authorImageUrl = item.author.img;                
+        const authorImageUrl = item.author.img;            
         const authorName = item.author.name ? item.author.name: 'No Data Available';                
         const publishDate = item.author.published_date;
         const views = item.total_view ? item.total_view: 'No Data Available';        

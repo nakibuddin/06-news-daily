@@ -12,14 +12,17 @@ body, .nav-bg{
 #btn-news:hover, #btn-blog:hover{            
     color: #5D5FEF;
     font-weight: bold;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 .btn-color{
     color: #5D5FEF;
-    font-weight: bold;
+    font-weight: bold;    
     text-decoration: underline;
 }
-
+.category-color{
+    color: #5D5FEF;
+    font-weight: bold;    
+}
 
 .thumbnail_img{
     width: 22%;
