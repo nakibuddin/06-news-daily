@@ -16,7 +16,7 @@
     <header>
         <!-------------------------------------- navbar section ---------------------------->
         <section>
-            <nav class="navbar container fixed-top navbar-expand-lg">
+            <nav class="navbar container fixed-top navbar-expand-lg nav-bg">
                 <div class="container">                    
                     <a class="navbar-brand navbar-brand-color ms-5" href="index.html"><h4 class="me-5">News Daily</h4></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,17 +37,27 @@
         </section>        
         <br><br>
         <hr>
+        <br>
     </header>
 
     <main class="mx-5">
+        
         <div id="category-container" class="d-flex flex-wrap flex-column flex-md-row align-items-center justify-content-between">
+        </div>
+
+                    <!--:::::::::::::::::::::::: loader :::::::::::::::::::::::::::: -->
+
+        <div id="loader" style="height:100px;" class="d-none d-flex align-items-center justify-content-center">            
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>              
+            </div>
         </div>
 
         <div id="news-container">
 
         </div>
 
-        
+                    <!--:::::::::::::::::::::::: Modal :::::::::::::::::::::::::::: -->
         <!-- <button class="btn btn-light btn-lg text-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Register Now</button>         -->
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
