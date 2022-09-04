@@ -31,7 +31,7 @@ const loadCategoryData = data =>{
 
         const categoryDiv = document.createElement('div');      
         categoryDiv.innerHTML = `
-            <p onclick="fetchNews('${categoryId}', '${categoryName}')" id="category${categoryId}" class="my-cursor">
+            <p onclick="fetchNews('${categoryId}', '${categoryName}')" id="category${categoryId}" class="my-cursor category px-2 pb-1">
              ${category.category_name} </p>                    
         `;
         document.getElementById('category-container').appendChild(categoryDiv);

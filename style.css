@@ -19,9 +19,16 @@ body, .nav-bg{
     font-weight: bold;    
     text-decoration: underline;
 }
-.category-color{
+
+.category-color{    
     color: #5D5FEF;
-    font-weight: bold;    
+    background-color: #d9daf3;        
+    font-weight: bold;   
+    border-radius: 5px; 
+}
+.category:hover{    
+    background-color: #dcdcf3;        
+    border-radius: 5px; 
 }
 
 .thumbnail_img{
